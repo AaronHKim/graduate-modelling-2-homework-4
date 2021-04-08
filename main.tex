@@ -95,12 +95,26 @@ We know that $x^{(k)}$ is defined as follows:
 \begin{equation*}
     x^{(k)}=x(x-1)(x-2)\cdots(x-k+1), \; k\in\mathbb{Z}^+
 \end{equation*}
+\begin{equation*}
+    (x+1)^{(k)}=(x+1)(x)(x-1)\cdots(x-k+2), \; k\in\mathbb{Z}^+
+\end{equation*}
+This can be similarly defined as:
+\begin{equation}\label{eq:deltafactorial}
+    x^{(k)}=\dfrac{x!}{(x-k)!}=x(x-1)(x-2)\cdots(x-k+1) 
+\end{equation}
+and as:
+\begin{equation}\label{eq:deltaprod}
+    x^{(k)}=\prod_{j=1}^{k}x-j+1 = x(x-1)(x-2)\cdots(x-k+1) 
+\end{equation}
+\begin{equation*}
+    (x+1)^{(k)}=\prod_{j=1}^{k-1}x-j+1 = (x+1)(x)(x-2)\cdots(x-k+2)
+\end{equation*}
 and from the lecture notes that:
 \begin{align*}
     \Delta x^{(k)} &= (x+1)^{(k)}-x^{(k)}\\
-                    &=(x+1)(x)(x-1)\dots(x-k+2)-x(x-1)\dots(x-k+2)(x-k+1)\\
-                    &=(x)(x-1)\dots(x-k+2)[x+1-(x-k+1)]\\
-                    &=x(x-1)\dots(x-k+2)k\\
+                    &=(x+1)(x)(x-1)\cdots(x-k+2)-x(x-1)\cdots(x-k+2)(x-k+1)\\
+                    &=(x)(x-1)\cdots(x-k+2)[x+1-(x-k+1)]\\
+                    &=x(x-1)\cdots(x-k+2)k\\
                     &=kx^{(k-1)}
 \end{align*}
 
@@ -110,8 +124,80 @@ and from the lecture notes that:
         \Delta\left[\Delta x^{(k)}\right] &= \Delta \left[ kx^{(k-1)} \right]\\
         &= k \Delta x^{(k-1)}\\
         &= k \left[(x+1)^{(k-1)} - x^{(k-1)}\right]\\
-        &= k 
+        &= k \Big[ (x+1)(x)(x-1)\cdots(x-(k-1)+2)\\
+        &\quad- x(x-1)\cdots(x-(k-1)+2)(x-(k-1)+1)  \Big]\\
+        &= k\Big[ (x)(x-1)\cdots(x-(k-1)+2)\Big] \Big( (x+1) -(x-(k-1)+1) \Big)\\
     \end{align*}
+    The term on the left in square brackets is identically $x^{(k+2)}$ since:
+    \begin{equation*}
+        x^{(k-2)} = x(x-1)\cdots (x-(k-2)+1) = x(x-1)\cdots (x-k+3)
+    \end{equation*}
+    and the term on the right simplifies to:
+    \begin{equation*}
+        \Big( (x+1) -(x-(k-1)+1) \Big)= k-1
+    \end{equation*}
+    giving us:
+    \begin{equation*}
+        \Delta^2x^{(k)} = k(k-1)x^{(k-2)}
+    \end{equation*}
+    Now let's assume that this pattern holds up to some $(n-1)$, then:
+    \begin{equation*}
+        \Delta^{n-1} x^{(k)} = k(k-1)\cdots((k-(n-1)-1))x^{(k-(n-1)}
+    \end{equation*}
+    then:
+    \begin{align*}
+        \Delta\left[\Delta^{n-1}x^{(k)}\right] &= \Delta\left[k(k-1)\cdots(k-(n-1)-1)x^{(k-(n-1))}\right]\\
+        &= \Delta\left[k(k-1)\cdots(k-n)x^{(k-n+1)}\right]\\
+    \end{align*}
+    We can express the quantity on the left inside the brackets as:
+    \begin{equation}\label{eq:factorial}
+        k(k-1)\cdots(k-n)= \dfrac{k!}{(k-n-1)!}
+    \end{equation}
+    and since it is a scalar quantity that does not depend on $x$ and is thus not effected by the $\Delta$ operator, we can move it outside. (since the $\Delta$ operator is linear)
+    \begin{align*}
+        \Delta\left[\Delta^{n-1}x^{(k)}\right] &= \dfrac{k!}{(k-n-1)!}\Delta x^{(k-n+1)}\\
+        &= \dfrac{k!}{(k-n-1)!}\left[ (x+1)^{(k-n+1)}-x^{(k-n+1)}\right]
+    \end{align*}
+    We know that the structure of the operator as before in $\displaystyle \Delta^2 x^{(k)}$, the bracketed part will have the form from (\ref{eq:deltaprod}), where $(x+1)^{(k)}$ shifts both indicies down by one:
+    \begin{equation*}
+        \prod_{j=0}^{k-n} x-j+1 - \prod_{j=1}^{k-n+1} x-j+1
+    \end{equation*}
+    which simplifies to:
+    \begin{equation*}
+        \left[\prod_{j=1}^{k-n}x-j+1\right] [(x+1)-(x-(k-n+1)+1) ] = \left[\prod_{j=1}^{k-n}x-j+1\right] (k-n+1)
+    \end{equation*}
+    going back to what we had, we can substitute into the bracketed part: 
+    \begin{align*}
+        \Delta\left[\Delta^{n-1}x^{(k)}\right] &= \dfrac{k!}{(k-n-1)!}\left[ (x+1)^{(k-n+1)}-x^{(k-n+1)}\right]\\
+        &= \dfrac{k!}{(k-n-1)!}\left[\prod_{j=1}^{k-n}x-j+1\right] (k-n+1)
+    \end{align*}
+    Simplifying further using (\ref{eq:deltaprod}) again we then get:
+    \begin{equation}\label{eq:general}
+        \Delta^nx^{(k)}=\dfrac{k!}{(k-n-1)!}x^{(k-n)} (k-n+1)
+    \end{equation}
+    \begin{equation*}
+        \Delta^nx^{(k)}=k(k-1)\cdots(k-n)(k-n+1)x^{(k-n)} 
+    \end{equation*}
+    \item Using (\ref{eq:general}), if $n=k$:
+    \begin{align*}
+        \Delta^kx^{(k)}&=\dfrac{k!}{(k-k-1)!}x^{(k-k)} (k-k+1)\\
+    \end{align*}
+    and using (\ref{eq:factorial})
+    \begin{align*}
+        \Delta^kx^{(k)}&=\dfrac{k!}{(-1)!}\dfrac{x!}{(x-(k-k))!} (0+1)\\
+        &= \dfrac{k!}{(-1)!} (1)(1)\\
+        &=\dfrac{k!}{(-1)!}
+    \end{align*}
+        
+    
+    The term in brackets is zero, since the indicies are backwards. For the term on the left, we know that negative interger factorials have the form:
+    \begin{equation*}
+        n! = \dfrac{(-1)^{-n-1}}{(-n-1)!}
+    \end{equation*}
+    and that $-1! = 1$, so this gives us:
+    \begin{equation*}
+        \Delta x^{(k)} = k!
+    \end{equation*}
 \end{enumerate}
 
 \end{changemargin}
@@ -131,48 +217,22 @@ Prove the Quotient rule:
 \textbf{Attempt:}
 
     \begin{changemargin}{.5cm}{0cm}
-        \begin{enumerate}[label=(\alph*)]
-    \item
-    we know that $g(x) = f(f(x))$, so we must put $2x$ into each, and $2(1-x)$ into each, and adjust the initial intervals. This gives us: \begin{equation*}
-        g(x) = \begin{cases}
-         2(2(x)), & 0\leq x < \frac 1 4\\
-         2(1-(2x)) & \frac 1 4 \leq x < \frac 1 2 \\
-         2(1-2(1-x))) & \frac 1 2 \leq x < \frac 3 4\\
-         2(2(1-x)) & \frac 3 4 \leq x \leq 1
-        \end{cases}
-    \end{equation*}
-    
-    
-    \item Our fixed points are:
-    \begin{align*}
-         \begin{cases}
-         4x^*-x^*=0, & 0\leq x < \frac 1 4\\
-         2-4x^* - x^* = 0 & \frac 1 4 \leq x < \frac 1 2 \\
-         4x^*-2 - x^*=0 & \frac 1 2 \leq x < \frac 3 4\\
-         4-4x^* -x^*=0 & \frac 3 4 \leq x \leq 1
-        \end{cases}
-    \end{align*}
-    \begin{align*}
-         \begin{cases}
-         x^*=0, & 0\leq x < \frac 1 4\\
-         x^*=\frac 2 5 & \frac 1 4 \leq x < \frac 1 2 \\
-         x^*=\frac 2 3  & \frac 1 2 \leq x < \frac 3 4\\
-         x^* = \frac 4 5  & \frac 3 4 \leq x \leq 1
-        \end{cases}
-    \end{align*}
-    \item The two cycles are $.8,.4$.
-    \lstinputlisting[caption={2 values}]{matlab_files/problem_13c.m}
-\end{enumerate}
+        since $\Delta = E-I$,
+        \begin{align*}
+            \Delta\left[\frac{x(n)}{y(n)}\right] &= (E-I)\left[\frac{x(n)}{y(n)}\right]\\
+            &= E\left[\frac{x(n)}{y(n)}\right] -I\left[\frac{x(n)}{y(n)}\right] \\
+            &=\left[\frac{x(n+1)}{y(n+1)}\right] -\left[\frac{x(n)}{y(n)}\right] \\
+            &= \left[\frac{x(n+1)y(n)-x(n)y(n+1)}{y(n)y(n+1)}\right] \\
+            &=\left[\frac{x(n+1)y(n)+[y(n)x(n)-y(n)x(n)]-x(n)y(n+1)}{y(n)y(n+1)}\right] \\
+            &=\left[\frac{x(n+1)y(n)-y(n)x(n)-x(n)y(n+1)+y(n)x(n)]}{y(n)y(n+1)}\right] \\
+            &=\left[\frac{y(n)[x(n+1)-x(n)]-x(n)[y(n+1)-y(n)]}{y(n)y(n+1)}\right] \\
+            &=\left[\frac{y(n)\Delta x(n)-x(n)\Delta y(n)}{y(n)Ey(n)}\right]
+        \end{align*}
 
     \end{changemargin}
 
 
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=.7\textwidth]{images/Problem_1_extrea.png}
-%    \caption{Plot toward the limit where $100 to 6285$ skipping every 100 values}
-%    \label{fig:fig2}
-%\end{figure}
+
 
 
 \newpage
@@ -187,15 +247,15 @@ Prove the following lemma:
 
 Let $X_1(n)$ and $X_2(n)$ be two solutions of:
 
-\begin{equation}\label{eq:1} 
-    x(k+n) + P_1(n) x(n+k-1)+\dots +p_k(n)x(n)=0
+\begin{equation}\label{eq:p24} 
+    x(k+n) + p_1(n) x(n+k-1)+\dots +p_k(n)x(n)=0
 \end{equation}
 
 Then the following statements are true:
 
 \begin{enumerate}
-    \item $x(n) = x_1(n) + x_2(n)$ is a solution of (\ref{eq:1})
-    \item $\Tilde{x}(n) = ax_1(n)$ is a solution of (\ref{eq:1}) for any constant $a$
+    \item $x(n) = X_1(n) + X_2(n)$ is a solution of (\ref{eq:p24})
+    \item $\Tilde{x}(n) = aX_1(n)$ is a solution of (\ref{eq:p24}) for any constant $a$
 \end{enumerate}
 
 
@@ -206,30 +266,33 @@ Then the following statements are true:
 \textbf{Attempt:}
 
 \begin{changemargin}{.5cm}{0cm}
-    We can apply the following Theorem:
-    
-    \fbox{\begin{minipage}{\textwidth}\textbf{Theorem 1.21:} 
-
-Let $O(b) = \{b=x(0), x(1), \dots, x(k-1)\}$ be a $k$-cycle of a continuously differentiable function $f$. Then the following statements hold:
-
-\begin{enumerate}[label = (\roman*)]
-    \item The $k$-cycle $O(b)$ is asymptotically stable if:
-    \begin{equation*}
-        \left|f'\big(x(0)\big)f'\big(x(1)\big)\dots f'\big(x(k-1\big) \right|<1
-    \end{equation*}
-    \item The $k$-cycle $O(b)$ is asymptotically unstable if:
-    \begin{equation*}
-        \left|f'\big(x(0)\big)f'\big(x(1)\big)\dots f'\big(x(k-1\big) \right|>1
-    \end{equation*}
+    \begin{enumerate}
+        \item    
+   if $X_1(n)$ and $X_2(n)$ are solutions to \ref{eq:p24}, then:
+   \begin{equation*}
+    X_1(k+n) + p_1(n) X_1(n+k-1)+\dots +p_k(n)X_1(n)=0
+   \end{equation*}
+   \begin{equation*}
+    X_2(k+n) + p_1(n) X_2(n+k-1)+\dots +p_k(n)X_2(n)=0
+   \end{equation*}
+   So if we plug in $x(n) = X_1(n) + X_2(n)$ for (\ref{eq:p24})
+   \begin{align*}
+    x(n)=&X_1(k+n)+X_2(k+n) + p_1(n) X_1(n+k-1)+p_1(n)X_2(n+k-1)\\
+    &\quad+\dots +p_k(n)X_1(n)+p_k(n)X_2(n)\\
+    &=X_1(k+n) + p_1(n) X_1(n+k-1)+\dots +p_k(n)X_1(n) \\
+    &\quad+X_2(k+n) + p_1(n) X_2(n+k-1)+\dots +p_k(n)X_2(n)\\
+    &=0 +0
+   \end{align*}
+    But this is just equal to the two given solutions meaning the sum of each (when we split them) is zero, so this is also a solution.
+    \item  Doing something similar:
+    \begin{align*}
+        \tilde{x}(n) &= aX_1(k+n) + p_1(n) aX_1(n+k-1)+\dots +p_k(n)aX_1(n)\\
+        &=a(X_1(k+n) + p_1(n) X_1(n+k-1)+\dots +p_k(n)X_1(n))\\
+        &=a(0)\\
+        &=0
+    \end{align*}
+    So this is also a solution.
 \end{enumerate}
-\end{minipage}}
-    
-    Then 
-    \begin{equation*}
-        |f'(.4)f'(.8)| = \left|2*(-2) \right| = 4>1
-    \end{equation*}
-    So this is asymptotically unstable.
-    
 \end{changemargin}
 
 \newpage
@@ -251,228 +314,79 @@ Find the Casoratian of the following functions:
     \begin{changemargin}{.5cm}{0cm}
     
     \begin{enumerate}[label=(\alph*)]
-    \item
-    we know that $g(x) = f(f(x))$, so we must put $2x$ into each, and $2x-1$ into each, and adjust the initial intervals. This gives us: \begin{equation*}
-        g(x) = \begin{cases}
-         2(2(x)), & 0\leq x < \frac 1 4\\
-         2(2x)-1 & \frac 1 4 \leq x < \frac 1 2 \\
-          2(2x-1)& \frac 1 2 \leq x < \frac 3 4\\
-         2(2x-1)-1 & \frac 3 4 \leq x \leq 1
-        \end{cases}
+    \item let $n=1$
+    \begin{equation*}
+        \begin{vmatrix}
+            1 & 1 & 3\\
+            -2 & 2 & 3\\
+            4 & 4 & 3
+        \end{vmatrix}=
+        1\begin{vmatrix}
+            2 & 3\\
+            4 & 3
+        \end{vmatrix}
+        -(-2)\begin{vmatrix}
+            1 & 3\\
+            4 & 3
+        \end{vmatrix}
+        +4\begin{vmatrix}
+            1 & 3\\
+            2 & 3
+        \end{vmatrix}
     \end{equation*}
-    \begin{figure}[H]
-        \centering
-       \includegraphics[width=.6\textwidth]{images/problem_15_b2.png}
-        \caption{plot of $B^2$}
-        \label{fig:b2}
-    \end{figure}
-    
-    \item Our fixed points are:
-    \begin{align*}
-         \begin{cases}
-         4x^*-x^*=0, & 0\leq x < \frac 1 4\\
-         4x^* -1 - x^* = 0 & \frac 1 4 \leq x < \frac 1 2 \\
-         4x^*-2 - x^*=0 & \frac 1 2 \leq x < \frac 3 4\\
-        4x^* -3-x^*=0 & \frac 3 4 \leq x \leq 1
-        \end{cases}
-    \end{align*}
-    \begin{align*}
-         \begin{cases}
-         x^*=0, & 0\leq x < \frac 1 4\\
-         x^*=\frac 1 3 & \frac 1 4 \leq x < \frac 1 2 \\
-         x^*=\frac 2 3    & \frac 1 2 \leq x < \frac 3 4\\
-         x^* = 1  & \frac 3 4 \leq x \leq 1
-        \end{cases}
-    \end{align*}
-    \item Since $x^*=0,1$ are solutions of $B(x)$, they cannot be solutions, therefore the 2-cycle is given by $\frac{1}{3},\frac{2}{3}$
-    
-    We can see these plotted here:
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=.6\textwidth]{images/problem_15_cycles.png}
-        \caption{An image of the cycles (code included at the end)}
-        \label{fig:b2cycles}
-    \end{figure}
+    \begin{equation*}
+    = 6-12+ 6-24 + 12-24 = -12-6-18 = -36
+   \end{equation*}
+   since this $\neq 0$ these are linearly independent
+    \item 
+    \begin{equation*}
+        \begin{vmatrix}
+            0 & 1 & 3\\
+            0 & 2 & 3\\
+            0 & 4 & 3
+        \end{vmatrix}=
+        0\begin{vmatrix}
+            2 & 3\\
+            4 & 3
+        \end{vmatrix}
+        -0\begin{vmatrix}
+            1 & 3\\
+            4 & 3
+        \end{vmatrix}
+        +0\begin{vmatrix}
+            1 & 3\\
+            2 & 3
+        \end{vmatrix} = 0
+    \end{equation*}
+    So this is linearly dependent.
+    \item 
+    \begin{equation*}
+        \begin{vmatrix}
+            1 &  3 & 4\\
+            2 &  3 & 8\\
+            4 &  3 & 16
+        \end{vmatrix}=
+        1\begin{vmatrix}
+            3 & 8\\
+            3 & 16
+        \end{vmatrix}
+        -2\begin{vmatrix}
+            3 & 4\\
+            3 & 16
+        \end{vmatrix}
+        +4\begin{vmatrix}
+            3 & 4\\
+            3 & 8
+        \end{vmatrix}
+    \end{equation*}
+    \begin{equation*}
+    = 48-24+ -96+24 + 96-48 = 0 
+   \end{equation*}
+   So this is linearly dependent 
 \end{enumerate}
 
 
     \end{changemargin}
-
-\section*{Problem 16}
-
-what is the stability of the two cycle for $\mu = 1 +\sqrt{6}$? Justify your answer.
-
-\textbf{Attempt:}
-\begin{changemargin}{.5cm}{0cm}
-    $F_\mu (x) = \mu x(1-x)$, and so 
-    \begin{align*}
-        [F^2_\mu(x(0)) ]' &= F'_\mu(x(0))F'_\mu(x(1))\\
-        &=\mu(1-2x(0))\mu(1-2x(1))
-        \\
-       &=\mu^2(1-2x(0))(1-2x(1))
-    \end{align*}
-    If:
-    \begin{equation*}
-        x(0) = \frac{\left[ (1+\mu) -\sqrt{(\mu-3)(\mu+1)} \right]}{2\mu}
-    \end{equation*}
-    \begin{equation*}
-        x(1) = \frac{\left[ (1+\mu) +\sqrt{(\mu-3)(\mu+1)} \right]}{2\mu}
-    \end{equation*}
-
-    We can write this as:
-    \begin{equation*}
-       \mu^2\left(1-2\frac{\left[ (1+\mu) -\sqrt{(\mu-3)(\mu+1)} \right]}{2\mu}\right)\left(1-2\frac{\left[ (1+\mu) +\sqrt{(\mu-3)(\mu+1)} \right]}{2\mu}\right)
-    \end{equation*}
-    simplifying further:
-    \begin{equation*}
-       \mu^2\left(\frac{\mu-\left[ (1+\mu) -\sqrt{(\mu-3)(\mu+1)} \right]}{\mu}\right)\left(\frac{\mu-\left[ (1+\mu) +\sqrt{(\mu-3)(\mu+1)} \right]}{\mu}\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\mu-\left[ (1+\mu) -\sqrt{(\mu-3)(\mu+1)} \right]\right)\left(\mu-\left[ (1+\mu) +\sqrt{(\mu-3)(\mu+1)} \right]\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\left[ -1 +\sqrt{(\mu-3)(\mu+1)} \right]\right)\left(\left[ -1-\sqrt{(\mu-3)(\mu+1)} \right]\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\left[ 1 - (\mu-3)(\mu+1) \right]\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\left[ 1- \mu^2+2\mu+3 \right]\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\left[ 4 - (1+\sqrt{6})^2+2(1+\sqrt{6}) \right]\right)
-    \end{equation*}
-    \begin{equation*}
-       \left(\left[ 4 - 1-2\sqrt{6}-6+2+2\sqrt{6}) = -1 \right]\right)
-    \end{equation*}
-    To assess the stability let's first try (\textbf{Thm 1.16}) and check the first derivative of our function:
-    \begin{align*}
-        F''(x) &= [F'(x(0))F'(x(1))]'\\
-        &= F''(x(0))F'(x(1))+F'(x(0))F''(x(1))\\
-        &= -2\mu( F'(x(1))+F'(x(0)))
-    \end{align*}
-    \begin{align*}
-        F'''(x) &= [F'(x(0))F'(x(1))]''\\
-        &= [F''(x(0))F'(x(1))+F'(x(0))F''(x(1))]'\\
-        &= [-2\mu F'(x(1))-2\mu F'(x(0))]'\\
-        &= 4\mu^2 +4\mu^2
-    \end{align*}
-    \begin{align*}
-        Sf = -f'''(x^*)-\frac 3 2 (f''(x^*))^2 = -8\mu^2 - \frac{3}{2}(-2\mu(-1))^2
-    \end{align*}
-    \begin{equation*}
-        =-8\mu^2-3\mu^2= -11(7+2\sqrt{6})<0
-    \end{equation*}
-    so we know that this is asymptotically stable. 
-    
-\end{changemargin}
-
-
-\section*{Problem 17}
-
-Iterate $x(n+1) = F_\mu \big( x(u) \big)$ for a large number of iterations. Plot the last portion of the sequence $\{x(n)\}$ as a function of $\mu$ to get a bifurcation diagram of $F_\mu$
-
-    
-\textbf{Attempt:}
-\begin{changemargin}{.5cm}{0cm}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=.6\textwidth]{images/problem_17.png}
-        \caption{Bifurcation diagram}
-        \label{fig:bifurcation}
-    \end{figure}
-    \lstinputlisting[caption={bifurcation}]{matlab_files/problem_17.m}
-\end{changemargin}
-
-
-\section*{Problem 18}
-Show that:
-\begin{equation*}
-    E^k x(n) = \sum_{i=0}^k {k \choose i} \Delta^{k-i}x(n)
-\end{equation*}
-
-\textbf{Attempt:}
-\begin{changemargin}{.5cm}{0cm}
-    From before we know that $\Delta = E-I$, so using the previous proof:
-    \begin{align*}
-        \Delta^kx(n)&=(E-I)^kx(n)\\
-        &=\sum_{i=0}^k(-1)^i{k\choose i}E^{k-i}x(n)\\
-        &=\sum_{i=0}^k(-1)^i{k\choose i}x(n+k-i)
-    \end{align*}
-
-    Since $E=\Delta + I$, and $E^k= (\Delta + I)^k$, and $\displaystyle (a+b)^n = \sum_{k=0}^n {n\choose k} a^{n-k}b^k$ :
-    \begin{align*}
-        E^k&=(\Delta + I)^k\\
-        &=\sum_{i=0}^k{k \choose i} \Delta^{k-i}(I)^i
-    \end{align*}
-    Then:
-    \begin{align*}
-        E^kx(n) &=\sum_{i=0}^k{k \choose i} \Delta^{k-i}(I)^ix(n)\\
-        E^kx(n) &=\sum_{i=0}^k{k \choose i} \Delta^{k-i}(I)x(n)\\
-        E^kx(n) =\sum_{i=0}^k{k \choose i} \Delta^{k-i}x(n)\\
-    \end{align*}
-\end{changemargin}
-
-\section*{Problem 19}
-Show that $E$ and $\Delta$ are linear operators. That is, show that for all constants $a$ and $b$:
-\begin{align*}
-    \Delta[ax(n)+by(n)] &=a\Delta x(n) + b\Delta y(n)\\
-    &\text{ and}\\
-    E[ax(n) + by(n)]&= aEx(n) + bEy(n)
-\end{align*}
-
-\textbf{Attempt:}
-
-\begin{changemargin}{.5cm}{0cm}
-\begin{align*}
-    a\Delta[x(n)]+b\Delta[y(n)] &= a[x(n+1) -x(n)] +b[y(n+1)-y(n)]\\
-    &=[ax(n+1) -ax(n)] +[by(n+1)-by(n)]\\
-    &=[ax(n+1)+by(n+1) ] -[ax(n)+by(n)]\\
-    &=\Delta [ax(n)+by(n)]
-\end{align*}
-\begin{align*}
-    E[ax(n) + by(n)]&= [ax(n+1) + by(n+1)]\\
-    &=a[x(n+1)]+b[y(n+1)]\\
-    &=a E[x(n)]+b E[y(n)]
-\end{align*}
-    
-\end{changemargin}
-    
-\section*{Problem 20}
-Prove that the following statements hold:
-
-\begin{enumerate}[label = (\roman*)]
-    \item $\displaystyle \sum_{i=n_0}^{n-1}\Delta x(n) = x(n) - x(n_0)$
-    \item $\displaystyle \Delta \left( \sum_{k=n_0}^{n-1} x(k) \right) = x(n)$
-\end{enumerate}
-\textbf{Attempt:}
-\begin{changemargin}{.5cm}{0cm}
-    \begin{enumerate}[label = (\roman*)]
-    \item \begin{align*}
-       \sum_{i=n_0}^{n-1}\Delta x(n)&= \sum_{i=n_0}^{n-1}x(i+1)-x(i)\\
-       &= \sum_{i=n_0}^{n-1}-x(i)+x(i+1)\\
-       &=[-x(n_0)+x(n_0+1)] +[-x(n_0+1) +x(n_0+2)] + \dots\\ &+[-x(n-2)+x(n-2+1)]+ [-x(n-1)+x(n-1+1)] \\
-    \end{align*}  
-    But it is easy to observe that the terms between cancel:
-    \begin{align*}
-        &=-x(n_0)+[x(n_0+1) -x(n_0+1)] +[x(n_0+2) -x(n_0+2)] \dots\\ &[x(n-2)-x(n-2)]+[x(n-2+1)+ -x(n-1)]+x(n-1+1) \\
-        &= -x(n_0)+x(n)
-    \end{align*}
-    So we get:$\displaystyle \sum_{i=n_0}^{n-1}\Delta x(n) = x(n) - x(n_0)$
-    
-    \item 
-    
-    \begin{align*}
-        \Delta \left( \sum_{k=n_0}^{n-1} x(k) \right)&=\\
-        &= \left( \sum_{k=n_0}^{n} x(k) \right)- \left( \sum_{k=n_0}^{n-1} x(k) \right)\\
-        &=x(n)+\left( \sum_{k=n_0}^{n-1} x(k) \right)- \left( \sum_{k=n_0}^{n-1} x(k) \right)
-    \end{align*}
-    so $\displaystyle\Delta \left( \sum_{k=n_0}^{n-1} x(k) \right)=x(n) $
-
-\end{enumerate}
-\end{changemargin}
-
-    \lstinputlisting[caption={cobweb}]{matlab_files/homework_1_5b.m}
 
 
 \end{document}
